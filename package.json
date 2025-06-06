@@ -1,0 +1,15 @@
+{
+  "name": "@schoolyear/avd-cli",
+  "version": "0.0.1",
+  "description": "A repository describing the types of AVD images",
+  "scripts": {
+    "prepack": "json2ts v2_properties.json -o index.d.ts --additionalProperties false"
+  },
+  "main": "",
+  "types": "./index.d.ts",
+  "author": "Schoolyear",
+  "repository": "https://github.com/schoolyear/avd-image-types",
+  "devDependencies": {
+    "json-schema-to-typescript": "^13.0.2"
+  }
+}
