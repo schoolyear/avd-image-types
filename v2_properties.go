@@ -12,6 +12,6 @@ import (
 var propertiesSchema []byte
 var schemaLoader = gojsonschema.NewBytesLoader(propertiesSchema)
 
-func ValidateProperties(json []byte) (*gojsonschema.Result, error) {
+func ValidateV2Properties(json []byte) (*gojsonschema.Result, error) {
 	return gojsonschema.Validate(schemaLoader, gojsonschema.NewBytesLoader(json))
 }
