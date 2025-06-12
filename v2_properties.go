@@ -1,5 +1,4 @@
-//go:generate go install github.com/atombender/go-jsonschema@v0.20.0
-//go:generate go run github.com/atombender/go-jsonschema@v0.20.0 --schema-package=v2_layer_properties=github.com/schoolyear/avdimagetypes --schema-output=v2_layer_properties=v2_properties_types.go v2_properties.json
+//go:generate sh -c "cat v2_properties.json | docker run -i --rm swaggest/json-cli json-cli gen-go - --package-name avdimagetypes --ptr-in-schema \"#/definitions/v2_layer_properties\" --show-const-properties > v2_properties_types.go"
 
 package avdimagetypes
 
