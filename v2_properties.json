@@ -66,6 +66,7 @@
                   "type": "string"
                 },
                 "planInfo": {
+                  "title": "Platform Image Plan Info",
                   "type": "object",
                   "properties": {
                     "planName": {

@@ -41,16 +41,18 @@ type ManagedImage struct {
 //
 // Platform Image.
 type PlatformImage struct {
-	Type      PlatformImageType                         `json:"type"`  // Required.
-	Offer     string                                    `json:"offer"` // Required.
-	PlanInfo  *V2LayerPropertiesBaseImageOneOf1PlanInfo `json:"planInfo,omitempty"`
-	Publisher string                                    `json:"publisher"` // Required.
-	Sku       string                                    `json:"sku"`       // Required.
-	Version   string                                    `json:"version"`   // Required.
+	Type      PlatformImageType      `json:"type"`               // Required.
+	Offer     string                 `json:"offer"`              // Required.
+	PlanInfo  *PlatformImagePlanInfo `json:"planInfo,omitempty"` // Platform Image Plan Info.
+	Publisher string                 `json:"publisher"`          // Required.
+	Sku       string                 `json:"sku"`                // Required.
+	Version   string                 `json:"version"`            // Required.
 }
 
-// V2LayerPropertiesBaseImageOneOf1PlanInfo structure is generated from "stdin#/definitions/v2_layer_properties->base_image/oneOf/1->planInfo".
-type V2LayerPropertiesBaseImageOneOf1PlanInfo struct {
+// PlatformImagePlanInfo structure is generated from "stdin#/definitions/v2_layer_properties->base_image/oneOf/1->planInfo".
+//
+// Platform Image Plan Info.
+type PlatformImagePlanInfo struct {
 	PlanName      string `json:"planName"`      // Required.
 	PlanProduct   string `json:"planProduct"`   // Required.
 	PlanPublisher string `json:"planPublisher"` // Required.
