@@ -5,6 +5,7 @@
   "description": "Properties schema for an image layer",
   "definitions": {
     "v2_layer_properties": {
+      "title": "V2 Layer Properties",
       "type": "object",
       "properties": {
         "version": {
@@ -127,7 +128,7 @@
             "http_proxy_whitelist": {
               "description": "HTTP(s) hosts that are whitelisted in the proxy. Note that the application must be configured to use the proxy or support Windows IE proxy settings",
               "type": "array",
-              "maxItems": 500,
+              "maxItems": 100,
               "items": {
                 "type": "string",
                 "pattern": "^[\\w\\-.*]+:[\\d*]+$",
@@ -137,7 +138,7 @@
             "whitelisted_public_ips": {
               "description": "List of IPs or CIDR ranges that are whitelisted for outgoing connections. These should be public IPs",
               "type": "array",
-              "maxItems": 100,
+              "maxItems": 50,
               "items": {
                 "type": "object",
                 "properties": {
@@ -168,7 +169,7 @@
             },
             "whitelisted_internal_ips": {
               "type": "array",
-              "maxItems": 100,
+              "maxItems": 50,
               "items": {
                 "type": "object",
                 "properties": {
@@ -203,6 +204,35 @@
         "name",
         "author",
         "network"
+      ]
+    },
+    "v2_bundle_properties": {
+      "title": "V2 Bundle Properties",
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "enum": [
+            "v2"
+          ]
+        },
+        "cli_version": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2_layer_properties"
+          },
+          "minItems": 1,
+          "maxItems": 50
+        }
+      },
+      "required": [
+        "version",
+        "cli_version",
+        "layers"
       ]
     }
   }

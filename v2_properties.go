@@ -1,4 +1,4 @@
-//go:generate sh -c "cat v2_properties.json | docker run -i --rm swaggest/json-cli json-cli gen-go - --package-name avdimagetypes --ptr-in-schema \"#/definitions/v2_layer_properties\" --show-const-properties > v2_properties_types.go"
+//go:generate sh -c "cat v2_properties.json | docker run -i --rm swaggest/json-cli json-cli gen-go - --package-name avdimagetypes --ptr-in-schema \"#/definitions/v2_bundle_properties\" --show-const-properties > v2_properties_types.go"
 
 package avdimagetypes
 

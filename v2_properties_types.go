@@ -10,7 +10,18 @@ import (
 	"fmt"
 )
 
-// V2LayerProperties structure is generated from "stdin#/definitions/v2_layer_properties".
+// V2BundleProperties structure is generated from "stdin#/definitions/v2_bundle_properties".
+//
+// V2 Bundle Properties.
+type V2BundleProperties struct {
+	Version    V2BundlePropertiesVersion `json:"version"`     // Required.
+	CliVersion string                    `json:"cli_version"` // Required.
+	Layers     []V2LayerProperties       `json:"layers"`      // Required.
+}
+
+// V2LayerProperties structure is generated from "#/definitions/v2_layer_properties".
+//
+// V2 Layer Properties.
 type V2LayerProperties struct {
 	Version V2LayerPropertiesVersion `json:"version"` // Required.
 	// Value must match pattern: `^[a-zA-Z0-9-]+$`.
@@ -21,7 +32,7 @@ type V2LayerProperties struct {
 	Network   V2LayerPropertiesNetwork    `json:"network"` // Required.
 }
 
-// V2LayerPropertiesAuthor structure is generated from "stdin#/definitions/v2_layer_properties->author".
+// V2LayerPropertiesAuthor structure is generated from "#/definitions/v2_layer_properties->author".
 type V2LayerPropertiesAuthor struct {
 	Name string `json:"name"` // Required.
 	// Format: email.
@@ -29,7 +40,7 @@ type V2LayerPropertiesAuthor struct {
 	Email string `json:"email"`
 }
 
-// ManagedImage structure is generated from "stdin#/definitions/v2_layer_properties->base_image/oneOf/0".
+// ManagedImage structure is generated from "#/definitions/v2_layer_properties->base_image/oneOf/0".
 //
 // Managed Image.
 type ManagedImage struct {
@@ -37,7 +48,7 @@ type ManagedImage struct {
 	ImageID string           `json:"imageId"` // Required.
 }
 
-// PlatformImage structure is generated from "stdin#/definitions/v2_layer_properties->base_image/oneOf/1".
+// PlatformImage structure is generated from "#/definitions/v2_layer_properties->base_image/oneOf/1".
 //
 // Platform Image.
 type PlatformImage struct {
@@ -49,7 +60,7 @@ type PlatformImage struct {
 	Version   string                 `json:"version"`            // Required.
 }
 
-// PlatformImagePlanInfo structure is generated from "stdin#/definitions/v2_layer_properties->base_image/oneOf/1->planInfo".
+// PlatformImagePlanInfo structure is generated from "#/definitions/v2_layer_properties->base_image/oneOf/1->planInfo".
 //
 // Platform Image Plan Info.
 type PlatformImagePlanInfo struct {
@@ -58,7 +69,7 @@ type PlatformImagePlanInfo struct {
 	PlanPublisher string `json:"planPublisher"` // Required.
 }
 
-// SharedImageVersion structure is generated from "stdin#/definitions/v2_layer_properties->base_image/oneOf/2".
+// SharedImageVersion structure is generated from "#/definitions/v2_layer_properties->base_image/oneOf/2".
 //
 // Shared Image Version.
 type SharedImageVersion struct {
@@ -66,7 +77,7 @@ type SharedImageVersion struct {
 	ImageVersionID string                 `json:"imageVersionId"` // Required.
 }
 
-// V2LayerPropertiesBaseImage structure is generated from "stdin#/definitions/v2_layer_properties->base_image".
+// V2LayerPropertiesBaseImage structure is generated from "#/definitions/v2_layer_properties->base_image".
 type V2LayerPropertiesBaseImage struct {
 	ManagedImage       *ManagedImage       `json:"-"`
 	PlatformImage      *PlatformImage      `json:"-"`
@@ -116,14 +127,14 @@ func (v V2LayerPropertiesBaseImage) MarshalJSON() ([]byte, error) {
 	return marshalUnion(v.ManagedImage, v.PlatformImage, v.SharedImageVersion)
 }
 
-// V2LayerPropertiesNetwork structure is generated from "stdin#/definitions/v2_layer_properties->network".
+// V2LayerPropertiesNetwork structure is generated from "#/definitions/v2_layer_properties->network".
 type V2LayerPropertiesNetwork struct {
 	HTTPProxyWhitelist     []string                                              `json:"http_proxy_whitelist,omitempty"`   // HTTP(s) hosts that are whitelisted in the proxy. Note that the application must be configured to use the proxy or support Windows IE proxy settings.
 	WhitelistedPublicIps   []V2LayerPropertiesNetworkWhitelistedPublicIpsItems   `json:"whitelisted_public_ips,omitempty"` // List of IPs or CIDR ranges that are whitelisted for outgoing connections. These should be public IPs.
 	WhitelistedInternalIps []V2LayerPropertiesNetworkWhitelistedInternalIpsItems `json:"whitelisted_internal_ips,omitempty"`
 }
 
-// V2LayerPropertiesNetworkWhitelistedPublicIpsItems structure is generated from "stdin#/definitions/v2_layer_properties->network->whitelisted_public_ips->items".
+// V2LayerPropertiesNetworkWhitelistedPublicIpsItems structure is generated from "#/definitions/v2_layer_properties->network->whitelisted_public_ips->items".
 type V2LayerPropertiesNetworkWhitelistedPublicIpsItems struct {
 	// IP or CIDR range.
 	// Required.
@@ -133,7 +144,7 @@ type V2LayerPropertiesNetworkWhitelistedPublicIpsItems struct {
 	Port string `json:"port,omitempty"`
 }
 
-// V2LayerPropertiesNetworkWhitelistedInternalIpsItems structure is generated from "stdin#/definitions/v2_layer_properties->network->whitelisted_internal_ips->items".
+// V2LayerPropertiesNetworkWhitelistedInternalIpsItems structure is generated from "#/definitions/v2_layer_properties->network->whitelisted_internal_ips->items".
 type V2LayerPropertiesNetworkWhitelistedInternalIpsItems struct {
 	// Value must match pattern: `^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$`.
 	// Required.
@@ -141,6 +152,49 @@ type V2LayerPropertiesNetworkWhitelistedInternalIpsItems struct {
 	// Port or port range.
 	// Value must match pattern: `^([0-9]{1,5}|[0-9]{1,5}-[0-9]{1,5})$`.
 	Port string `json:"port,omitempty"`
+}
+
+// V2BundlePropertiesVersion is an enum type.
+type V2BundlePropertiesVersion string
+
+// V2BundlePropertiesVersion values enumeration.
+const (
+	V2BundlePropertiesVersionV2 = V2BundlePropertiesVersion("v2")
+)
+
+// MarshalJSON encodes JSON.
+func (i V2BundlePropertiesVersion) MarshalJSON() ([]byte, error) {
+	switch i {
+	case V2BundlePropertiesVersionV2:
+
+	default:
+		return nil, fmt.Errorf("unexpected V2BundlePropertiesVersion value: %v", i)
+	}
+
+	return json.Marshal(string(i))
+}
+
+// UnmarshalJSON decodes JSON.
+func (i *V2BundlePropertiesVersion) UnmarshalJSON(data []byte) error {
+	var ii string
+
+	err := json.Unmarshal(data, &ii)
+	if err != nil {
+		return err
+	}
+
+	v := V2BundlePropertiesVersion(ii)
+
+	switch v {
+	case V2BundlePropertiesVersionV2:
+
+	default:
+		return fmt.Errorf("unexpected V2BundlePropertiesVersion value: %v", v)
+	}
+
+	*i = v
+
+	return nil
 }
 
 // V2LayerPropertiesVersion is an enum type.
