@@ -197,13 +197,19 @@
               }
             }
           }
+        },
+        "platform_version": {
+          "description": "The version of the AVD platform this layer expects and requires to work",
+          "type": "string",
+          "enum": ["2"]
         }
       },
       "required": [
         "version",
         "name",
         "author",
-        "network"
+        "network",
+        "platform_version"
       ]
     },
     "v2_bundle_properties": {

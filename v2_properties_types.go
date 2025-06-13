@@ -30,6 +30,9 @@ type V2LayerProperties struct {
 	Author    V2LayerPropertiesAuthor     `json:"author"` // Required.
 	BaseImage *V2LayerPropertiesBaseImage `json:"base_image,omitempty"`
 	Network   V2LayerPropertiesNetwork    `json:"network"` // Required.
+	// The version of the infrastructure this layer was developed for.
+	// Required.
+	InfrastructureVersion V2LayerPropertiesInfrastructureVersion `json:"infrastructure_version"`
 }
 
 // V2LayerPropertiesAuthor structure is generated from "#/definitions/v2_layer_properties->author".
@@ -362,6 +365,52 @@ func (i *SharedImageVersionType) UnmarshalJSON(data []byte) error {
 
 	default:
 		return fmt.Errorf("unexpected SharedImageVersionType value: %v", v)
+	}
+
+	*i = v
+
+	return nil
+}
+
+// V2LayerPropertiesInfrastructureVersion is an enum type.
+type V2LayerPropertiesInfrastructureVersion string
+
+// V2LayerPropertiesInfrastructureVersion values enumeration.
+const (
+	V2LayerPropertiesInfrastructureVersion1 = V2LayerPropertiesInfrastructureVersion("1")
+	V2LayerPropertiesInfrastructureVersion2 = V2LayerPropertiesInfrastructureVersion("2")
+)
+
+// MarshalJSON encodes JSON.
+func (i V2LayerPropertiesInfrastructureVersion) MarshalJSON() ([]byte, error) {
+	switch i {
+	case V2LayerPropertiesInfrastructureVersion1:
+	case V2LayerPropertiesInfrastructureVersion2:
+
+	default:
+		return nil, fmt.Errorf("unexpected V2LayerPropertiesInfrastructureVersion value: %v", i)
+	}
+
+	return json.Marshal(string(i))
+}
+
+// UnmarshalJSON decodes JSON.
+func (i *V2LayerPropertiesInfrastructureVersion) UnmarshalJSON(data []byte) error {
+	var ii string
+
+	err := json.Unmarshal(data, &ii)
+	if err != nil {
+		return err
+	}
+
+	v := V2LayerPropertiesInfrastructureVersion(ii)
+
+	switch v {
+	case V2LayerPropertiesInfrastructureVersion1:
+	case V2LayerPropertiesInfrastructureVersion2:
+
+	default:
+		return fmt.Errorf("unexpected V2LayerPropertiesInfrastructureVersion value: %v", v)
 	}
 
 	*i = v
