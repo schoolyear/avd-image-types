@@ -29,7 +29,7 @@ type V2LayerProperties struct {
 	Name      string                      `json:"name"`
 	Author    V2LayerPropertiesAuthor     `json:"author"` // Required.
 	BaseImage *V2LayerPropertiesBaseImage `json:"base_image,omitempty"`
-	Network   V2LayerPropertiesNetwork    `json:"network"` // Required.
+	Network   *V2LayerPropertiesNetwork   `json:"network,omitempty"`
 	// The version of the AVD platform this layer expects and requires to work.
 	// Required.
 	PlatformVersion V2LayerPropertiesPlatformVersion `json:"platform_version"`
@@ -37,10 +37,8 @@ type V2LayerProperties struct {
 
 // V2LayerPropertiesAuthor structure is generated from "#/definitions/v2_layer_properties->author".
 type V2LayerPropertiesAuthor struct {
-	Name string `json:"name"` // Required.
-	// Format: email.
-	// Required.
-	Email string `json:"email"`
+	Name  string `json:"name"`            // Required.
+	Email string `json:"email,omitempty"` // Format: email.
 }
 
 // ManagedImage structure is generated from "#/definitions/v2_layer_properties->base_image/oneOf/0".

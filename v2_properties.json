@@ -17,7 +17,7 @@
         "name": {
           "type": "string",
           "pattern": "^[a-zA-Z0-9-.]+$",
-          "minLength": 1,
+          "minLength": 3,
           "maxLength": 25
         },
         "author": {
@@ -33,8 +33,7 @@
             }
           },
           "required": [
-            "name",
-            "email"
+            "name"
           ]
         },
         "base_image": {
@@ -208,7 +207,6 @@
         "version",
         "name",
         "author",
-        "network",
         "platform_version"
       ]
     },
