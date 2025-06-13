@@ -30,9 +30,9 @@ type V2LayerProperties struct {
 	Author    V2LayerPropertiesAuthor     `json:"author"` // Required.
 	BaseImage *V2LayerPropertiesBaseImage `json:"base_image,omitempty"`
 	Network   V2LayerPropertiesNetwork    `json:"network"` // Required.
-	// The version of the infrastructure this layer was developed for.
+	// The version of the AVD platform this layer expects and requires to work.
 	// Required.
-	InfrastructureVersion V2LayerPropertiesInfrastructureVersion `json:"infrastructure_version"`
+	PlatformVersion V2LayerPropertiesPlatformVersion `json:"platform_version"`
 }
 
 // V2LayerPropertiesAuthor structure is generated from "#/definitions/v2_layer_properties->author".
@@ -372,30 +372,28 @@ func (i *SharedImageVersionType) UnmarshalJSON(data []byte) error {
 	return nil
 }
 
-// V2LayerPropertiesInfrastructureVersion is an enum type.
-type V2LayerPropertiesInfrastructureVersion string
+// V2LayerPropertiesPlatformVersion is an enum type.
+type V2LayerPropertiesPlatformVersion string
 
-// V2LayerPropertiesInfrastructureVersion values enumeration.
+// V2LayerPropertiesPlatformVersion values enumeration.
 const (
-	V2LayerPropertiesInfrastructureVersion1 = V2LayerPropertiesInfrastructureVersion("1")
-	V2LayerPropertiesInfrastructureVersion2 = V2LayerPropertiesInfrastructureVersion("2")
+	V2LayerPropertiesPlatformVersion2 = V2LayerPropertiesPlatformVersion("2")
 )
 
 // MarshalJSON encodes JSON.
-func (i V2LayerPropertiesInfrastructureVersion) MarshalJSON() ([]byte, error) {
+func (i V2LayerPropertiesPlatformVersion) MarshalJSON() ([]byte, error) {
 	switch i {
-	case V2LayerPropertiesInfrastructureVersion1:
-	case V2LayerPropertiesInfrastructureVersion2:
+	case V2LayerPropertiesPlatformVersion2:
 
 	default:
-		return nil, fmt.Errorf("unexpected V2LayerPropertiesInfrastructureVersion value: %v", i)
+		return nil, fmt.Errorf("unexpected V2LayerPropertiesPlatformVersion value: %v", i)
 	}
 
 	return json.Marshal(string(i))
 }
 
 // UnmarshalJSON decodes JSON.
-func (i *V2LayerPropertiesInfrastructureVersion) UnmarshalJSON(data []byte) error {
+func (i *V2LayerPropertiesPlatformVersion) UnmarshalJSON(data []byte) error {
 	var ii string
 
 	err := json.Unmarshal(data, &ii)
@@ -403,14 +401,13 @@ func (i *V2LayerPropertiesInfrastructureVersion) UnmarshalJSON(data []byte) erro
 		return err
 	}
 
-	v := V2LayerPropertiesInfrastructureVersion(ii)
+	v := V2LayerPropertiesPlatformVersion(ii)
 
 	switch v {
-	case V2LayerPropertiesInfrastructureVersion1:
-	case V2LayerPropertiesInfrastructureVersion2:
+	case V2LayerPropertiesPlatformVersion2:
 
 	default:
-		return fmt.Errorf("unexpected V2LayerPropertiesInfrastructureVersion value: %v", v)
+		return fmt.Errorf("unexpected V2LayerPropertiesPlatformVersion value: %v", v)
 	}
 
 	*i = v
