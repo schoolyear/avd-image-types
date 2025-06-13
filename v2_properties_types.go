@@ -24,7 +24,7 @@ type V2BundleProperties struct {
 // V2 Layer Properties.
 type V2LayerProperties struct {
 	Version V2LayerPropertiesVersion `json:"version"` // Required.
-	// Value must match pattern: `^[a-zA-Z0-9-]+$`.
+	// Value must match pattern: `^[a-zA-Z0-9-.]+$`.
 	// Required.
 	Name      string                      `json:"name"`
 	Author    V2LayerPropertiesAuthor     `json:"author"` // Required.
