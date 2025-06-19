@@ -33,8 +33,8 @@ func main() {
 package {{.PackageName}}
 
 const (
-	{{- range .Schemas }}
-    {{. }}SchemaName = "{{.}}"
+	{{- range .DefinitionNames }}
+    {{. }}Definition = "{{.}}"
 	{{- end }}
 )
 `
@@ -45,11 +45,11 @@ const (
 
 	var buffer bytes.Buffer
 	err = codeTemplate.Execute(&buffer, struct {
-		PackageName string
-		Schemas     []string
+		PackageName     string
+		DefinitionNames []string
 	}{
-		PackageName: *flagPackage,
-		Schemas:     names,
+		PackageName:     *flagPackage,
+		DefinitionNames: names,
 	})
 	if err != nil {
 		log.Fatal(err)

@@ -2,6 +2,6 @@
 package avdimagetypes
 
 const (
-	V2LayerPropertiesSchemaName  = "V2LayerProperties"
-	V2BundlePropertiesSchemaName = "V2BundleProperties"
+	V2LayerPropertiesDefinition  = "V2LayerProperties"
+	V2BundlePropertiesDefinition = "V2BundleProperties"
 )
