@@ -1,0 +1,243 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "v2_layer_properties",
+  "title": "V2 Layer Properties",
+  "description": "Properties schema for an image layer",
+  "definitions": {
+    "v2_layer_properties": {
+      "title": "V2 Layer Properties",
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "enum": [
+            "v2"
+          ]
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9-.]+$",
+          "minLength": 3,
+          "maxLength": 25
+        },
+        "author": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "maxLength": 100
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            }
+          },
+          "required": [
+            "name"
+          ]
+        },
+        "base_image": {
+          "type": "object",
+          "oneOf": [
+            {
+              "title": "Managed Image",
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "ManagedImage"
+                },
+                "imageId": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "imageId"
+              ]
+            },
+            {
+              "title": "Platform Image",
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "PlatformImage"
+                },
+                "offer": {
+                  "type": "string"
+                },
+                "planInfo": {
+                  "title": "Platform Image Plan Info",
+                  "type": "object",
+                  "properties": {
+                    "planName": {
+                      "type": "string"
+                    },
+                    "planProduct": {
+                      "type": "string"
+                    },
+                    "planPublisher": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "planName",
+                    "planProduct",
+                    "planPublisher"
+                  ]
+                },
+                "publisher": {
+                  "type": "string"
+                },
+                "sku": {
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "offer",
+                "publisher",
+                "sku",
+                "version"
+              ]
+            },
+            {
+              "title": "Shared Image Version",
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "SharedImageVersion"
+                },
+                "imageVersionId": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "type",
+                "imageVersionId"
+              ]
+            }
+          ]
+        },
+        "network": {
+          "type": "object",
+          "properties": {
+            "http_proxy_whitelist": {
+              "description": "HTTP(s) hosts that are whitelisted in the proxy. Note that the application must be configured to use the proxy or support Windows IE proxy settings",
+              "type": "array",
+              "maxItems": 100,
+              "items": {
+                "type": "string",
+                "pattern": "^[\\w\\-.*]+:[\\d*]+$",
+                "description": "Hostname:port combination, supports * wildcards"
+              }
+            },
+            "whitelisted_public_ips": {
+              "description": "List of IPs or CIDR ranges that are whitelisted for outgoing connections. These should be public IPs",
+              "type": "array",
+              "maxItems": 50,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "target": {
+                    "description": "IP or CIDR range",
+                    "type": "string",
+                    "examples": [
+                      "1.1.1.1",
+                      "1.1.1.1/24"
+                    ]
+                  },
+                  "port": {
+                    "description": "port or port range",
+                    "type": "string",
+                    "pattern": "^([0-9]{1,5}|[0-9]{1,5}-[0-9]{1,5})$",
+                    "minLength": 1,
+                    "maxLength": 11,
+                    "examples": [
+                      "1234",
+                      "1234-1236"
+                    ]
+                  }
+                },
+                "required": [
+                  "target"
+                ]
+              }
+            },
+            "whitelisted_internal_ips": {
+              "type": "array",
+              "maxItems": 50,
+              "items": {
+                "type": "object",
+                "properties": {
+                  "hostname": {
+                    "type": "string",
+                    "pattern": "^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$",
+                    "minLength": 1,
+                    "maxLength": 63
+                  },
+                  "port": {
+                    "description": "port or port range",
+                    "type": "string",
+                    "pattern": "^([0-9]{1,5}|[0-9]{1,5}-[0-9]{1,5})$",
+                    "minLength": 1,
+                    "maxLength": 11,
+                    "examples": [
+                      "1234",
+                      "1234-1236"
+                    ]
+                  }
+                },
+                "required": [
+                  "hostname"
+                ]
+              }
+            }
+          }
+        },
+        "platform_version": {
+          "description": "The version of the AVD platform this layer expects and requires to work",
+          "type": "string",
+          "enum": ["2"]
+        }
+      },
+      "required": [
+        "version",
+        "name",
+        "author",
+        "platform_version"
+      ]
+    },
+    "v2_bundle_properties": {
+      "title": "V2 Bundle Properties",
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "enum": [
+            "v2"
+          ]
+        },
+        "cli_version": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "layers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/v2_layer_properties"
+          },
+          "minItems": 1,
+          "maxItems": 50
+        }
+      },
+      "required": [
+        "version",
+        "cli_version",
+        "layers"
+      ]
+    }
+  }
+}
