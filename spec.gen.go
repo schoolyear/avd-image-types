@@ -10,7 +10,7 @@ import (
 	"fmt"
 )
 
-// V2BundleProperties structure is generated from "stdin#/definitions/v2_bundle_properties".
+// V2BundleProperties structure is generated from "stdin#/definitions/V2BundleProperties".
 //
 // V2 Bundle Properties.
 type V2BundleProperties struct {
@@ -19,7 +19,7 @@ type V2BundleProperties struct {
 	Layers     []V2LayerProperties       `json:"layers"`      // Required.
 }
 
-// V2LayerProperties structure is generated from "#/definitions/v2_layer_properties".
+// V2LayerProperties structure is generated from "#/definitions/V2LayerProperties".
 //
 // V2 Layer Properties.
 type V2LayerProperties struct {
@@ -35,13 +35,13 @@ type V2LayerProperties struct {
 	PlatformVersion V2LayerPropertiesPlatformVersion `json:"platform_version"`
 }
 
-// V2LayerPropertiesAuthor structure is generated from "#/definitions/v2_layer_properties->author".
+// V2LayerPropertiesAuthor structure is generated from "#/definitions/V2LayerProperties->author".
 type V2LayerPropertiesAuthor struct {
 	Name  string `json:"name"`            // Required.
 	Email string `json:"email,omitempty"` // Format: email.
 }
 
-// ManagedImage structure is generated from "#/definitions/v2_layer_properties->base_image/oneOf/0".
+// ManagedImage structure is generated from "#/definitions/V2LayerProperties->base_image/oneOf/0".
 //
 // Managed Image.
 type ManagedImage struct {
@@ -49,7 +49,7 @@ type ManagedImage struct {
 	ImageID string           `json:"imageId"` // Required.
 }
 
-// PlatformImage structure is generated from "#/definitions/v2_layer_properties->base_image/oneOf/1".
+// PlatformImage structure is generated from "#/definitions/V2LayerProperties->base_image/oneOf/1".
 //
 // Platform Image.
 type PlatformImage struct {
@@ -61,7 +61,7 @@ type PlatformImage struct {
 	Version   string                 `json:"version"`            // Required.
 }
 
-// PlatformImagePlanInfo structure is generated from "#/definitions/v2_layer_properties->base_image/oneOf/1->planInfo".
+// PlatformImagePlanInfo structure is generated from "#/definitions/V2LayerProperties->base_image/oneOf/1->planInfo".
 //
 // Platform Image Plan Info.
 type PlatformImagePlanInfo struct {
@@ -70,7 +70,7 @@ type PlatformImagePlanInfo struct {
 	PlanPublisher string `json:"planPublisher"` // Required.
 }
 
-// SharedImageVersion structure is generated from "#/definitions/v2_layer_properties->base_image/oneOf/2".
+// SharedImageVersion structure is generated from "#/definitions/V2LayerProperties->base_image/oneOf/2".
 //
 // Shared Image Version.
 type SharedImageVersion struct {
@@ -78,7 +78,7 @@ type SharedImageVersion struct {
 	ImageVersionID string                 `json:"imageVersionId"` // Required.
 }
 
-// V2LayerPropertiesBaseImage structure is generated from "#/definitions/v2_layer_properties->base_image".
+// V2LayerPropertiesBaseImage structure is generated from "#/definitions/V2LayerProperties->base_image".
 type V2LayerPropertiesBaseImage struct {
 	ManagedImage       *ManagedImage       `json:"-"`
 	PlatformImage      *PlatformImage      `json:"-"`
@@ -128,14 +128,14 @@ func (v V2LayerPropertiesBaseImage) MarshalJSON() ([]byte, error) {
 	return marshalUnion(v.ManagedImage, v.PlatformImage, v.SharedImageVersion)
 }
 
-// V2LayerPropertiesNetwork structure is generated from "#/definitions/v2_layer_properties->network".
+// V2LayerPropertiesNetwork structure is generated from "#/definitions/V2LayerProperties->network".
 type V2LayerPropertiesNetwork struct {
 	HTTPProxyWhitelist     []string                                              `json:"http_proxy_whitelist,omitempty"`   // HTTP(s) hosts that are whitelisted in the proxy. Note that the application must be configured to use the proxy or support Windows IE proxy settings.
 	WhitelistedPublicIps   []V2LayerPropertiesNetworkWhitelistedPublicIpsItems   `json:"whitelisted_public_ips,omitempty"` // List of IPs or CIDR ranges that are whitelisted for outgoing connections. These should be public IPs.
 	WhitelistedInternalIps []V2LayerPropertiesNetworkWhitelistedInternalIpsItems `json:"whitelisted_internal_ips,omitempty"`
 }
 
-// V2LayerPropertiesNetworkWhitelistedPublicIpsItems structure is generated from "#/definitions/v2_layer_properties->network->whitelisted_public_ips->items".
+// V2LayerPropertiesNetworkWhitelistedPublicIpsItems structure is generated from "#/definitions/V2LayerProperties->network->whitelisted_public_ips->items".
 type V2LayerPropertiesNetworkWhitelistedPublicIpsItems struct {
 	// IP or CIDR range.
 	// Required.
@@ -145,7 +145,7 @@ type V2LayerPropertiesNetworkWhitelistedPublicIpsItems struct {
 	Port string `json:"port,omitempty"`
 }
 
-// V2LayerPropertiesNetworkWhitelistedInternalIpsItems structure is generated from "#/definitions/v2_layer_properties->network->whitelisted_internal_ips->items".
+// V2LayerPropertiesNetworkWhitelistedInternalIpsItems structure is generated from "#/definitions/V2LayerProperties->network->whitelisted_internal_ips->items".
 type V2LayerPropertiesNetworkWhitelistedInternalIpsItems struct {
 	// Value must match pattern: `^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$`.
 	// Required.

@@ -4,7 +4,7 @@
   "title": "V2 Layer Properties",
   "description": "Properties schema for an image layer",
   "definitions": {
-    "v2_layer_properties": {
+    "V2LayerProperties": {
       "title": "V2 Layer Properties",
       "type": "object",
       "properties": {
@@ -210,7 +210,7 @@
         "platform_version"
       ]
     },
-    "v2_bundle_properties": {
+    "V2BundleProperties": {
       "title": "V2 Bundle Properties",
       "type": "object",
       "properties": {
@@ -227,7 +227,7 @@
         "layers": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/v2_layer_properties"
+            "$ref": "#/definitions/V2LayerProperties"
           },
           "minItems": 1,
           "maxItems": 50

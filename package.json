@@ -3,7 +3,7 @@
   "version": "0.0.13",
   "description": "A repository describing the types of AVD images",
   "scripts": {
-    "prepack": "json2ts v2_properties.json -o index.d.ts --additionalProperties false"
+    "prepack": "json2ts spec.json -o index.d.ts --additionalProperties false"
   },
   "main": "",
   "types": "./index.d.ts",
