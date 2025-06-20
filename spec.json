@@ -20,6 +20,10 @@
           "minLength": 3,
           "maxLength": 25
         },
+        "description": {
+          "type": "string",
+          "maxLength": 500
+        },
         "author": {
           "type": "object",
           "properties": {

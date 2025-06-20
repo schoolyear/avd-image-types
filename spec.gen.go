@@ -26,10 +26,11 @@ type V2LayerProperties struct {
 	Version V2LayerPropertiesVersion `json:"version"` // Required.
 	// Value must match pattern: `^[a-zA-Z0-9-.]+$`.
 	// Required.
-	Name      string                      `json:"name"`
-	Author    V2LayerPropertiesAuthor     `json:"author"` // Required.
-	BaseImage *V2LayerPropertiesBaseImage `json:"base_image,omitempty"`
-	Network   *V2LayerPropertiesNetwork   `json:"network,omitempty"`
+	Name        string                      `json:"name"`
+	Description string                      `json:"description,omitempty"`
+	Author      V2LayerPropertiesAuthor     `json:"author"` // Required.
+	BaseImage   *V2LayerPropertiesBaseImage `json:"base_image,omitempty"`
+	Network     *V2LayerPropertiesNetwork   `json:"network,omitempty"`
 	// The version of the AVD platform this layer expects and requires to work.
 	// Required.
 	PlatformVersion V2LayerPropertiesPlatformVersion `json:"platform_version"`
