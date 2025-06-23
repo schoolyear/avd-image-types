@@ -4,6 +4,24 @@
   "title": "V2 Layer Properties",
   "description": "Properties schema for an image layer",
   "definitions": {
+    "V2LayerName": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9-.]+$",
+      "minLength": 3,
+      "maxLength": 25
+    },
+    "V2BuildParameterName": {
+      "description": "The name of a build parameter, should be a valid PowerShell parameter name",
+      "type": "string",
+      "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$",
+      "minLength": 1,
+      "maxLength": 63
+    },
+    "V2BuildParameterValue": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 50
+    },
     "V2LayerProperties": {
       "title": "V2 Layer Properties",
       "type": "object",
@@ -14,12 +32,7 @@
             "v2"
           ]
         },
-        "name": {
-          "type": "string",
-          "pattern": "^[a-zA-Z0-9-.]+$",
-          "minLength": 3,
-          "maxLength": 25
-        },
+        "name": {"$ref": "#/definitions/V2LayerName"},
         "description": {
           "type": "string",
           "maxLength": 500
@@ -212,10 +225,7 @@
           "type": "object",
           "maxProperties": 20,
           "propertyNames": {
-            "type": "string",
-            "pattern": "^[a-zA-Z][a-zA-Z0-9_]*$",
-            "minLength": 1,
-            "maxLength": 63
+            "$ref": "#/definitions/V2BuildParameterName"
           },
           "additionalProperties": {
             "type": "object",
@@ -227,9 +237,7 @@
               "enum": {
                 "type": "array",
                 "items": {
-                  "type": "string",
-                  "minLength": 1,
-                  "maxLength": 50
+                  "$ref": "#/definitions/V2BuildParameterValue"
                 }
               }
             }
@@ -264,11 +272,58 @@
           },
           "minItems": 1,
           "maxItems": 50
+        },
+        "build_parameter_values": {
+          "$ref": "#/definitions/V2BundleBuildParameterValues"
         }
       },
       "required": [
         "version",
         "cli_version",
+        "layers"
+      ]
+    },
+    "V2BuildParameterLayerValues": {
+      "title": "BuildParameterLayerValues",
+      "type": "object",
+      "maxProperties": 20,
+      "propertyNames": {
+        "$ref": "#/definitions/V2BuildParameterName"
+      },
+      "additionalProperties": {
+        "title": "BuildParameterValue",
+        "type": "object",
+        "properties": {
+          "value": {
+            "$ref": "#/definitions/V2BuildParameterValue"
+          }
+        },
+        "required": [
+          "value"
+        ]
+      }
+    },
+    "V2BundleBuildParameterValues": {
+      "title": "V2 Build parameters",
+      "type": "object",
+      "properties": {
+        "version": {
+          "type": "string",
+          "enum": ["v2"]
+        },
+        "layers": {
+          "type": "object",
+          "maxProperties": 50,
+          "propertyNames": {
+            "$ref": "#/definitions/V2LayerName"
+          },
+          "additionalProperties": {
+            "$ref": "#/definitions/V2BuildParameterLayerValues"
+          }
+        }
+      },
+      "required": [
+        "version",
         "layers"
       ]
     }
