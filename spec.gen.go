@@ -34,6 +34,9 @@ type V2LayerProperties struct {
 	// The version of the AVD platform this layer expects and requires to work.
 	// Required.
 	PlatformVersion V2LayerPropertiesPlatformVersion `json:"platform_version"`
+	// LayerBuildParameters.
+	// Parameters required during the build of the image.
+	BuildParameters map[string]V2LayerPropertiesBuildParametersAdditionalProperties `json:"build_parameters,omitempty"`
 }
 
 // V2LayerPropertiesAuthor structure is generated from "#/definitions/V2LayerProperties->author".
@@ -154,6 +157,12 @@ type V2LayerPropertiesNetworkWhitelistedInternalIpsItems struct {
 	// Port or port range.
 	// Value must match pattern: `^([0-9]{1,5}|[0-9]{1,5}-[0-9]{1,5})$`.
 	Port string `json:"port,omitempty"`
+}
+
+// V2LayerPropertiesBuildParametersAdditionalProperties structure is generated from "#/definitions/V2LayerProperties->build_parameters->additionalProperties".
+type V2LayerPropertiesBuildParametersAdditionalProperties struct {
+	Description string   `json:"description,omitempty"`
+	Enum        []string `json:"enum,omitempty"`
 }
 
 // V2BundlePropertiesVersion is an enum type.
