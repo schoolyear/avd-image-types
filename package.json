@@ -1,6 +1,6 @@
 {
   "name": "@schoolyear/avd-cli",
-  "version": "0.0.16",
+  "version": "0.0.17",
   "description": "A repository describing the types of AVD images",
   "scripts": {
     "prepack": "json2ts spec.json -o index.d.ts --additionalProperties false"
