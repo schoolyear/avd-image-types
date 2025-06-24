@@ -28,7 +28,7 @@ var compiledDefinitionSchemas = sync.Map{}
 func ValidateDefinition(definitionName string, payload []byte) (*gojsonschema.Result, error) {
 	schemaGetter, _ := compiledDefinitionSchemas.LoadOrStore(definitionName, sync.OnceValues(func() (*gojsonschema.Schema, error) {
 		loader := schemaLoader()
-		return loader.Compile(gojsonschema.NewReferenceLoader("/v2_layer_properties#/definitions/V2LayerProperties"))
+		return loader.Compile(gojsonschema.NewReferenceLoader("/v2_layer_properties#/definitions/" + definitionName))
 	}))
 
 	schema, err := schemaGetter.(func() (*gojsonschema.Schema, error))()
