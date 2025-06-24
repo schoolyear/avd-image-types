@@ -37,7 +37,7 @@ type V2LayerProperties struct {
 	PlatformVersion V2LayerPropertiesPlatformVersion `json:"platform_version"`
 	// LayerBuildParameters.
 	// Parameters required during the build of the image.
-	BuildParameters map[string]V2LayerPropertiesBuildParametersAdditionalProperties `json:"build_parameters,omitempty"`
+	BuildParameters map[string]LayerParameter `json:"build_parameters,omitempty"`
 }
 
 // V2LayerPropertiesAuthor structure is generated from "#/definitions/V2LayerProperties->author".
@@ -160,8 +160,10 @@ type V2LayerPropertiesNetworkWhitelistedInternalIpsItems struct {
 	Port string `json:"port,omitempty"`
 }
 
-// V2LayerPropertiesBuildParametersAdditionalProperties structure is generated from "#/definitions/V2LayerProperties->build_parameters->additionalProperties".
-type V2LayerPropertiesBuildParametersAdditionalProperties struct {
+// LayerParameter structure is generated from "#/definitions/V2LayerProperties->build_parameters->additionalProperties".
+//
+// Layer Parameter.
+type LayerParameter struct {
 	Description string   `json:"description,omitempty"`
 	Enum        []string `json:"enum,omitempty"`
 }

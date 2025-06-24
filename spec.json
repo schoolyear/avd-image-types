@@ -228,6 +228,7 @@
             "$ref": "#/definitions/V2BuildParameterName"
           },
           "additionalProperties": {
+            "title": "Layer Parameter",
             "type": "object",
             "properties": {
               "description": {
