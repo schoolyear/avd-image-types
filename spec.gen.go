@@ -173,6 +173,14 @@ type BuildParameterValue struct {
 	Value string `json:"value"` // Required.
 }
 
+// V2BuildParameters structure is generated from "stdin#/definitions/V2BuildParameters".
+//
+// V2 Build parameters.
+type V2BuildParameters struct {
+	Version V2BuildParametersVersion                  `json:"version"` // Required.
+	Layers  map[string]map[string]BuildParameterValue `json:"layers"`  // Required.
+}
+
 // V2BundlePropertiesVersion is an enum type.
 type V2BundlePropertiesVersion string
 
@@ -424,6 +432,49 @@ func (i *V2LayerPropertiesPlatformVersion) UnmarshalJSON(data []byte) error {
 
 	default:
 		return fmt.Errorf("unexpected V2LayerPropertiesPlatformVersion value: %v", v)
+	}
+
+	*i = v
+
+	return nil
+}
+
+// V2BuildParametersVersion is an enum type.
+type V2BuildParametersVersion string
+
+// V2BuildParametersVersion values enumeration.
+const (
+	V2BuildParametersVersionV2 = V2BuildParametersVersion("v2")
+)
+
+// MarshalJSON encodes JSON.
+func (i V2BuildParametersVersion) MarshalJSON() ([]byte, error) {
+	switch i {
+	case V2BuildParametersVersionV2:
+
+	default:
+		return nil, fmt.Errorf("unexpected V2BuildParametersVersion value: %v", i)
+	}
+
+	return json.Marshal(string(i))
+}
+
+// UnmarshalJSON decodes JSON.
+func (i *V2BuildParametersVersion) UnmarshalJSON(data []byte) error {
+	var ii string
+
+	err := json.Unmarshal(data, &ii)
+	if err != nil {
+		return err
+	}
+
+	v := V2BuildParametersVersion(ii)
+
+	switch v {
+	case V2BuildParametersVersionV2:
+
+	default:
+		return fmt.Errorf("unexpected V2BuildParametersVersion value: %v", v)
 	}
 
 	*i = v

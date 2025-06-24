@@ -313,7 +313,7 @@
         "$ref": "#/definitions/V2BuildParameterLayerValues"
       }
     },
-    "V2BuildParameterValues": {
+    "V2BuildParameters": {
       "title": "V2 Build parameters",
       "type": "object",
       "properties": {

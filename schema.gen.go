@@ -9,5 +9,5 @@ const (
 	V2BundlePropertiesDefinition          = "V2BundleProperties"
 	V2BuildParameterLayerValuesDefinition = "V2BuildParameterLayerValues"
 	V2BuildParameterLayersDefinition      = "V2BuildParameterLayers"
-	V2BuildParameterValuesDefinition      = "V2BuildParameterValues"
+	V2BuildParametersDefinition           = "V2BuildParameters"
 )
