@@ -164,8 +164,9 @@ type V2LayerPropertiesNetworkWhitelistedInternalIpsItems struct {
 //
 // Layer Parameter.
 type LayerParameter struct {
-	Description string   `json:"description,omitempty"`
+	Description string   `json:"description"` // Required.
 	Enum        []string `json:"enum,omitempty"`
+	Default     string   `json:"default,omitempty"`
 }
 
 // BuildParameterValue structure is generated from "#/definitions/V2BuildParameterLayerValues->additionalProperties".

@@ -233,6 +233,7 @@
             "properties": {
               "description": {
                 "type": "string",
+                "minLength": 5,
                 "maxLength": 200
               },
               "enum": {
@@ -240,8 +241,12 @@
                 "items": {
                   "$ref": "#/definitions/V2BuildParameterValue"
                 }
+              },
+              "default": {
+                "$ref": "#/definitions/V2BuildParameterValue"
               }
-            }
+            },
+            "required": ["description"]
           }
         }
       },
