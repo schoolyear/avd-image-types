@@ -2,11 +2,12 @@
 package avdimagetypes
 
 const (
-	V2LayerNameDefinition                  = "V2LayerName"
-	V2BuildParameterNameDefinition         = "V2BuildParameterName"
-	V2BuildParameterValueDefinition        = "V2BuildParameterValue"
-	V2LayerPropertiesDefinition            = "V2LayerProperties"
-	V2BundlePropertiesDefinition           = "V2BundleProperties"
-	V2BuildParameterLayerValuesDefinition  = "V2BuildParameterLayerValues"
-	V2BundleBuildParameterValuesDefinition = "V2BundleBuildParameterValues"
+	V2LayerNameDefinition                 = "V2LayerName"
+	V2BuildParameterNameDefinition        = "V2BuildParameterName"
+	V2BuildParameterValueDefinition       = "V2BuildParameterValue"
+	V2LayerPropertiesDefinition           = "V2LayerProperties"
+	V2BundlePropertiesDefinition          = "V2BundleProperties"
+	V2BuildParameterLayerValuesDefinition = "V2BuildParameterLayerValues"
+	V2BuildParameterLayersDefinition      = "V2BuildParameterLayers"
+	V2BuildParameterValuesDefinition      = "V2BuildParameterValues"
 )

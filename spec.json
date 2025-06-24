@@ -273,8 +273,8 @@
           "minItems": 1,
           "maxItems": 50
         },
-        "build_parameter_values": {
-          "$ref": "#/definitions/V2BundleBuildParameterValues"
+        "build_parameters": {
+          "$ref": "#/definitions/V2BuildParameterLayers"
         }
       },
       "required": [
@@ -303,7 +303,17 @@
         ]
       }
     },
-    "V2BundleBuildParameterValues": {
+    "V2BuildParameterLayers": {
+      "type": "object",
+      "maxProperties": 50,
+      "propertyNames": {
+        "$ref": "#/definitions/V2LayerName"
+      },
+      "additionalProperties": {
+        "$ref": "#/definitions/V2BuildParameterLayerValues"
+      }
+    },
+    "V2BuildParameterValues": {
       "title": "V2 Build parameters",
       "type": "object",
       "properties": {
@@ -312,14 +322,7 @@
           "enum": ["v2"]
         },
         "layers": {
-          "type": "object",
-          "maxProperties": 50,
-          "propertyNames": {
-            "$ref": "#/definitions/V2LayerName"
-          },
-          "additionalProperties": {
-            "$ref": "#/definitions/V2BuildParameterLayerValues"
-          }
+          "$ref": "#/definitions/V2BuildParameterLayers"
         }
       },
       "required": [
