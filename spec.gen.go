@@ -135,29 +135,7 @@ func (v V2LayerPropertiesBaseImage) MarshalJSON() ([]byte, error) {
 
 // V2LayerPropertiesNetwork structure is generated from "#/definitions/V2LayerProperties->network".
 type V2LayerPropertiesNetwork struct {
-	HTTPProxyWhitelist     []string                                              `json:"http_proxy_whitelist,omitempty"`   // HTTP(s) hosts that are whitelisted in the proxy. Note that the application must be configured to use the proxy or support Windows IE proxy settings.
-	WhitelistedPublicIps   []V2LayerPropertiesNetworkWhitelistedPublicIpsItems   `json:"whitelisted_public_ips,omitempty"` // List of IPs or CIDR ranges that are whitelisted for outgoing connections. These should be public IPs.
-	WhitelistedInternalIps []V2LayerPropertiesNetworkWhitelistedInternalIpsItems `json:"whitelisted_internal_ips,omitempty"`
-}
-
-// V2LayerPropertiesNetworkWhitelistedPublicIpsItems structure is generated from "#/definitions/V2LayerProperties->network->whitelisted_public_ips->items".
-type V2LayerPropertiesNetworkWhitelistedPublicIpsItems struct {
-	// IP or CIDR range.
-	// Required.
-	Target string `json:"target"`
-	// Port or port range.
-	// Value must match pattern: `^([0-9]{1,5}|[0-9]{1,5}-[0-9]{1,5})$`.
-	Port string `json:"port,omitempty"`
-}
-
-// V2LayerPropertiesNetworkWhitelistedInternalIpsItems structure is generated from "#/definitions/V2LayerProperties->network->whitelisted_internal_ips->items".
-type V2LayerPropertiesNetworkWhitelistedInternalIpsItems struct {
-	// Value must match pattern: `^[a-zA-Z0-9]([a-zA-Z0-9-]*[a-zA-Z0-9])?$`.
-	// Required.
-	Hostname string `json:"hostname"`
-	// Port or port range.
-	// Value must match pattern: `^([0-9]{1,5}|[0-9]{1,5}-[0-9]{1,5})$`.
-	Port string `json:"port,omitempty"`
+	HTTPProxyWhitelist []string `json:"http_proxy_whitelist,omitempty"` // HTTP(s) hosts that are whitelisted in the proxy. Note that the application must be configured to use the proxy or support Windows IE proxy settings.
 }
 
 // LayerParameter structure is generated from "#/definitions/V2LayerProperties->build_parameters->additionalProperties".
