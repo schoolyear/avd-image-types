@@ -42,10 +42,7 @@
           "type": "array",
           "items": {
             "type": "string",
-            "enum": [
-              "exclude:$_.Title -like '*Preview*'",
-              "include:$_.BrowseOnly -eq $false"
-            ]
+            "maxLength": 500
           }
         },
         "updateLimit": {
