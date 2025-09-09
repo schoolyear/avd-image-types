@@ -22,6 +22,228 @@
       "minLength": 1,
       "maxLength": 50
     },
+    "V2CustomizerWindowsUpdate": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "WindowsUpdate"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 150
+        },
+        "searchCriteria": {
+          "type": "string",
+          "description": "Windows Update search criteria",
+          "maxLength": 500
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "exclude:$_.Title -like '*Preview*'",
+              "include:$_.BrowseOnly -eq $false"
+            ]
+          }
+        },
+        "updateLimit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000,
+          "default": 1000
+        }
+      },
+      "required": [
+        "type",
+        "name"
+      ]
+    },
+    "V2CustomizerWindowsRestart": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "WindowsRestart"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 150
+        },
+        "restartCheckCommand": {
+          "type": "string",
+          "default": ""
+        },
+        "restartCommand": {
+          "type": "string",
+          "default": "shutdown /r /f /t 0 /c \"packer restart\""
+        },
+        "restartTimeout": {
+          "type": "string",
+          "pattern": "^[0-9]+[smh]$",
+          "default": "5m",
+          "description": "Timeout in format like '5m', '30s', '1h'"
+        }
+      },
+      "required": [
+        "type",
+        "name"
+      ]
+    },
+    "V2CustomizerFile": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "File"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 150
+        },
+        "sourceUri": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to download the file from"
+        },
+        "destination": {
+          "type": "string",
+          "description": "Local path where file should be saved",
+          "maxLength": 260
+        },
+        "sha256Checksum": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$",
+          "description": "Expected SHA256 checksum for file validation"
+        },
+        "validExitCodes": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "default": [
+            0
+          ]
+        }
+      },
+      "required": [
+        "type",
+        "name",
+        "sourceUri",
+        "destination"
+      ]
+    },
+    "V2CustomizerPowerShell": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "PowerShell"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 150
+        },
+        "inline": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "minItems": 1,
+          "maxItems": 1000,
+          "description": "Array of PowerShell commands/scripts to execute inline"
+        },
+        "script": {
+          "type": "string",
+          "description": "Path to PowerShell script file to execute",
+          "maxLength": 260
+        },
+        "validExitCodes": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "default": [
+            0
+          ],
+          "description": "List of valid exit codes"
+        },
+        "elevated": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to run PowerShell with elevated privileges"
+        },
+        "executionPolicy": {
+          "type": "string",
+          "enum": [
+            "Bypass",
+            "Unrestricted",
+            "RemoteSigned",
+            "AllSigned",
+            "Restricted"
+          ],
+          "default": "Bypass",
+          "description": "PowerShell execution policy for this script"
+        },
+        "environment": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          },
+          "maxProperties": 50,
+          "description": "Environment variables to set before execution"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "type",
+            "name",
+            "inline"
+          ]
+        },
+        {
+          "required": [
+            "type",
+            "name",
+            "script"
+          ]
+        }
+      ],
+      "not": {
+        "allOf": [
+          {
+            "required": [
+              "inline"
+            ]
+          },
+          {
+            "required": [
+              "script"
+            ]
+          }
+        ]
+      }
+    },
+    "V2Customizer": {
+      "oneOf": [
+        {
+          "$ref": "#/definitions/V2CustomizerWindowsUpdate"
+        },
+        {
+          "$ref": "#/definitions/V2CustomizerWindowsRestart"
+        },
+        {
+          "$ref": "#/definitions/V2CustomizerFile"
+        },
+        {
+          "$ref": "#/definitions/V2CustomizerPowerShell"
+        }
+      ]
+    },
     "V2LayerProperties": {
       "title": "V2 Layer Properties",
       "type": "object",
@@ -32,7 +254,9 @@
             "v2"
           ]
         },
-        "name": {"$ref": "#/definitions/V2LayerName"},
+        "name": {
+          "$ref": "#/definitions/V2LayerName"
+        },
         "description": {
           "type": "string",
           "maxLength": 500
@@ -156,7 +380,9 @@
         "platform_version": {
           "description": "The version of the AVD platform this layer expects and requires to work",
           "type": "string",
-          "enum": ["2"]
+          "enum": [
+            "2"
+          ]
         },
         "build_parameters": {
           "title": "LayerBuildParameters",
@@ -185,7 +411,28 @@
                 "$ref": "#/definitions/V2BuildParameterValue"
               }
             },
-            "required": ["description"]
+            "required": [
+              "description"
+            ]
+          }
+        },
+        "customizers": {
+          "type": "object",
+          "properties": {
+            "pre": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/V2Customizer"
+              },
+              "maxItems": 100
+            },
+            "post": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/V2Customizer"
+              },
+              "maxItems": 100
+            }
           }
         }
       },
@@ -264,7 +511,9 @@
       "properties": {
         "version": {
           "type": "string",
-          "enum": ["v2"]
+          "enum": [
+            "v2"
+          ]
         },
         "layers": {
           "$ref": "#/definitions/V2BuildParameterLayers"
