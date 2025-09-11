@@ -37,7 +37,8 @@ type V2LayerProperties struct {
 	PlatformVersion V2LayerPropertiesPlatformVersion `json:"platform_version"`
 	// LayerBuildParameters.
 	// Parameters required during the build of the image.
-	BuildParameters map[string]LayerParameter `json:"build_parameters,omitempty"`
+	BuildParameters map[string]LayerParameter     `json:"build_parameters,omitempty"`
+	Customizers     *V2LayerPropertiesCustomizers `json:"customizers,omitempty"`
 }
 
 // V2LayerPropertiesAuthor structure is generated from "#/definitions/V2LayerProperties->author".
@@ -145,6 +146,124 @@ type LayerParameter struct {
 	Description string   `json:"description"` // Required.
 	Enum        []string `json:"enum,omitempty"`
 	Default     string   `json:"default,omitempty"`
+}
+
+// V2LayerPropertiesCustomizers structure is generated from "#/definitions/V2LayerProperties->customizers".
+type V2LayerPropertiesCustomizers struct {
+	Pre  []V2Customizer `json:"pre,omitempty"`
+	Post []V2Customizer `json:"post,omitempty"`
+}
+
+// V2CustomizerWindowsUpdate structure is generated from "#/definitions/V2CustomizerWindowsUpdate".
+type V2CustomizerWindowsUpdate struct {
+	Type           V2CustomizerWindowsUpdateType `json:"type"`                     // Required.
+	Name           string                        `json:"name"`                     // Required.
+	SearchCriteria string                        `json:"searchCriteria,omitempty"` // Windows Update search criteria.
+	Filters        []string                      `json:"filters,omitempty"`
+	UpdateLimit    uint16                        `json:"updateLimit,omitempty"`
+}
+
+// V2CustomizerWindowsRestart structure is generated from "#/definitions/V2CustomizerWindowsRestart".
+type V2CustomizerWindowsRestart struct {
+	Type                V2CustomizerWindowsRestartType `json:"type"` // Required.
+	Name                string                         `json:"name"` // Required.
+	RestartCheckCommand string                         `json:"restartCheckCommand,omitempty"`
+	RestartCommand      string                         `json:"restartCommand,omitempty"`
+	// Timeout in format like '5m', '30s', '1h'.
+	// Value must match pattern: `^[0-9]+[smh]$`.
+	RestartTimeout string `json:"restartTimeout,omitempty"`
+}
+
+// V2CustomizerFile structure is generated from "#/definitions/V2CustomizerFile".
+type V2CustomizerFile struct {
+	Type V2CustomizerFileType `json:"type"` // Required.
+	Name string               `json:"name"` // Required.
+	// URL to download the file from.
+	// Format: uri.
+	// Required.
+	SourceURI string `json:"sourceUri"`
+	// Local path where file should be saved.
+	// Required.
+	Destination string `json:"destination"`
+	// Expected SHA256 checksum for file validation.
+	// Value must match pattern: `^[a-fA-F0-9]{64}$`.
+	Sha256Checksum string  `json:"sha256Checksum,omitempty"`
+	ValidExitCodes []int64 `json:"validExitCodes,omitempty"`
+}
+
+// V2CustomizerPowerShell structure is generated from "#/definitions/V2CustomizerPowerShell".
+type V2CustomizerPowerShell struct {
+	Type            V2CustomizerPowerShellType            `json:"type,omitempty"`
+	Name            string                                `json:"name,omitempty"`
+	Inline          []string                              `json:"inline,omitempty"`          // Array of PowerShell commands/scripts to execute inline.
+	Script          string                                `json:"script,omitempty"`          // Path to PowerShell script file to execute.
+	ValidExitCodes  []int64                               `json:"validExitCodes,omitempty"`  // List of valid exit codes.
+	Elevated        bool                                  `json:"elevated,omitempty"`        // Whether to run PowerShell with elevated privileges.
+	ExecutionPolicy V2CustomizerPowerShellExecutionPolicy `json:"executionPolicy,omitempty"` // PowerShell execution policy for this script.
+	Environment     map[string]string                     `json:"environment,omitempty"`     // Environment variables to set before execution.
+}
+
+// V2CustomizerPowerShellNot structure is generated from "#/definitions/V2CustomizerPowerShell->not".
+type V2CustomizerPowerShellNot struct {
+}
+
+// V2Customizer structure is generated from "#/definitions/V2Customizer".
+type V2Customizer struct {
+	WindowsUpdate  *V2CustomizerWindowsUpdate  `json:"-"`
+	WindowsRestart *V2CustomizerWindowsRestart `json:"-"`
+	File           *V2CustomizerFile           `json:"-"`
+	PowerShell     *V2CustomizerPowerShell     `json:"-"`
+}
+
+// UnmarshalJSON decodes JSON.
+func (v *V2Customizer) UnmarshalJSON(data []byte) error {
+	var err error
+
+	oneOfErrors := make(map[string]error, 4)
+	oneOfValid := 0
+
+	err = json.Unmarshal(data, &v.WindowsUpdate)
+	if err != nil {
+		oneOfErrors["WindowsUpdate"] = err
+		v.WindowsUpdate = nil
+	} else {
+		oneOfValid++
+	}
+
+	err = json.Unmarshal(data, &v.WindowsRestart)
+	if err != nil {
+		oneOfErrors["WindowsRestart"] = err
+		v.WindowsRestart = nil
+	} else {
+		oneOfValid++
+	}
+
+	err = json.Unmarshal(data, &v.File)
+	if err != nil {
+		oneOfErrors["File"] = err
+		v.File = nil
+	} else {
+		oneOfValid++
+	}
+
+	err = json.Unmarshal(data, &v.PowerShell)
+	if err != nil {
+		oneOfErrors["PowerShell"] = err
+		v.PowerShell = nil
+	} else {
+		oneOfValid++
+	}
+
+	if oneOfValid != 1 {
+		return fmt.Errorf("oneOf constraint failed for V2Customizer with %d valid results: %v", oneOfValid, oneOfErrors)
+	}
+
+	return nil
+}
+
+// MarshalJSON encodes JSON.
+func (v V2Customizer) MarshalJSON() ([]byte, error) {
+	return marshalUnion(v.WindowsUpdate, v.WindowsRestart, v.File, v.PowerShell)
 }
 
 // BuildParameterValue structure is generated from "#/definitions/V2BuildParameterLayerValues->additionalProperties".
@@ -413,6 +532,233 @@ func (i *V2LayerPropertiesPlatformVersion) UnmarshalJSON(data []byte) error {
 
 	default:
 		return fmt.Errorf("unexpected V2LayerPropertiesPlatformVersion value: %v", v)
+	}
+
+	*i = v
+
+	return nil
+}
+
+// V2CustomizerWindowsUpdateType is a constant type.
+type V2CustomizerWindowsUpdateType string
+
+// V2CustomizerWindowsUpdateType values enumeration.
+const (
+	V2CustomizerWindowsUpdateTypeWindowsUpdate = V2CustomizerWindowsUpdateType("WindowsUpdate")
+)
+
+// MarshalJSON encodes JSON.
+func (i V2CustomizerWindowsUpdateType) MarshalJSON() ([]byte, error) {
+	switch i {
+	case V2CustomizerWindowsUpdateTypeWindowsUpdate:
+
+	default:
+		return nil, fmt.Errorf("unexpected V2CustomizerWindowsUpdateType value: %v", i)
+	}
+
+	return json.Marshal(string(i))
+}
+
+// UnmarshalJSON decodes JSON.
+func (i *V2CustomizerWindowsUpdateType) UnmarshalJSON(data []byte) error {
+	var ii string
+
+	err := json.Unmarshal(data, &ii)
+	if err != nil {
+		return err
+	}
+
+	v := V2CustomizerWindowsUpdateType(ii)
+
+	switch v {
+	case V2CustomizerWindowsUpdateTypeWindowsUpdate:
+
+	default:
+		return fmt.Errorf("unexpected V2CustomizerWindowsUpdateType value: %v", v)
+	}
+
+	*i = v
+
+	return nil
+}
+
+// V2CustomizerWindowsRestartType is a constant type.
+type V2CustomizerWindowsRestartType string
+
+// V2CustomizerWindowsRestartType values enumeration.
+const (
+	V2CustomizerWindowsRestartTypeWindowsRestart = V2CustomizerWindowsRestartType("WindowsRestart")
+)
+
+// MarshalJSON encodes JSON.
+func (i V2CustomizerWindowsRestartType) MarshalJSON() ([]byte, error) {
+	switch i {
+	case V2CustomizerWindowsRestartTypeWindowsRestart:
+
+	default:
+		return nil, fmt.Errorf("unexpected V2CustomizerWindowsRestartType value: %v", i)
+	}
+
+	return json.Marshal(string(i))
+}
+
+// UnmarshalJSON decodes JSON.
+func (i *V2CustomizerWindowsRestartType) UnmarshalJSON(data []byte) error {
+	var ii string
+
+	err := json.Unmarshal(data, &ii)
+	if err != nil {
+		return err
+	}
+
+	v := V2CustomizerWindowsRestartType(ii)
+
+	switch v {
+	case V2CustomizerWindowsRestartTypeWindowsRestart:
+
+	default:
+		return fmt.Errorf("unexpected V2CustomizerWindowsRestartType value: %v", v)
+	}
+
+	*i = v
+
+	return nil
+}
+
+// V2CustomizerFileType is a constant type.
+type V2CustomizerFileType string
+
+// V2CustomizerFileType values enumeration.
+const (
+	V2CustomizerFileTypeFile = V2CustomizerFileType("File")
+)
+
+// MarshalJSON encodes JSON.
+func (i V2CustomizerFileType) MarshalJSON() ([]byte, error) {
+	switch i {
+	case V2CustomizerFileTypeFile:
+
+	default:
+		return nil, fmt.Errorf("unexpected V2CustomizerFileType value: %v", i)
+	}
+
+	return json.Marshal(string(i))
+}
+
+// UnmarshalJSON decodes JSON.
+func (i *V2CustomizerFileType) UnmarshalJSON(data []byte) error {
+	var ii string
+
+	err := json.Unmarshal(data, &ii)
+	if err != nil {
+		return err
+	}
+
+	v := V2CustomizerFileType(ii)
+
+	switch v {
+	case V2CustomizerFileTypeFile:
+
+	default:
+		return fmt.Errorf("unexpected V2CustomizerFileType value: %v", v)
+	}
+
+	*i = v
+
+	return nil
+}
+
+// V2CustomizerPowerShellType is a constant type.
+type V2CustomizerPowerShellType string
+
+// V2CustomizerPowerShellType values enumeration.
+const (
+	V2CustomizerPowerShellTypePowerShell = V2CustomizerPowerShellType("PowerShell")
+)
+
+// MarshalJSON encodes JSON.
+func (i V2CustomizerPowerShellType) MarshalJSON() ([]byte, error) {
+	switch i {
+	case V2CustomizerPowerShellTypePowerShell:
+
+	default:
+		return nil, fmt.Errorf("unexpected V2CustomizerPowerShellType value: %v", i)
+	}
+
+	return json.Marshal(string(i))
+}
+
+// UnmarshalJSON decodes JSON.
+func (i *V2CustomizerPowerShellType) UnmarshalJSON(data []byte) error {
+	var ii string
+
+	err := json.Unmarshal(data, &ii)
+	if err != nil {
+		return err
+	}
+
+	v := V2CustomizerPowerShellType(ii)
+
+	switch v {
+	case V2CustomizerPowerShellTypePowerShell:
+
+	default:
+		return fmt.Errorf("unexpected V2CustomizerPowerShellType value: %v", v)
+	}
+
+	*i = v
+
+	return nil
+}
+
+// V2CustomizerPowerShellExecutionPolicy is an enum type.
+type V2CustomizerPowerShellExecutionPolicy string
+
+// V2CustomizerPowerShellExecutionPolicy values enumeration.
+const (
+	V2CustomizerPowerShellExecutionPolicyBypass       = V2CustomizerPowerShellExecutionPolicy("Bypass")
+	V2CustomizerPowerShellExecutionPolicyUnrestricted = V2CustomizerPowerShellExecutionPolicy("Unrestricted")
+	V2CustomizerPowerShellExecutionPolicyRemoteSigned = V2CustomizerPowerShellExecutionPolicy("RemoteSigned")
+	V2CustomizerPowerShellExecutionPolicyAllSigned    = V2CustomizerPowerShellExecutionPolicy("AllSigned")
+	V2CustomizerPowerShellExecutionPolicyRestricted   = V2CustomizerPowerShellExecutionPolicy("Restricted")
+)
+
+// MarshalJSON encodes JSON.
+func (i V2CustomizerPowerShellExecutionPolicy) MarshalJSON() ([]byte, error) {
+	switch i {
+	case V2CustomizerPowerShellExecutionPolicyBypass:
+	case V2CustomizerPowerShellExecutionPolicyUnrestricted:
+	case V2CustomizerPowerShellExecutionPolicyRemoteSigned:
+	case V2CustomizerPowerShellExecutionPolicyAllSigned:
+	case V2CustomizerPowerShellExecutionPolicyRestricted:
+
+	default:
+		return nil, fmt.Errorf("unexpected V2CustomizerPowerShellExecutionPolicy value: %v", i)
+	}
+
+	return json.Marshal(string(i))
+}
+
+// UnmarshalJSON decodes JSON.
+func (i *V2CustomizerPowerShellExecutionPolicy) UnmarshalJSON(data []byte) error {
+	var ii string
+
+	err := json.Unmarshal(data, &ii)
+	if err != nil {
+		return err
+	}
+
+	v := V2CustomizerPowerShellExecutionPolicy(ii)
+
+	switch v {
+	case V2CustomizerPowerShellExecutionPolicyBypass:
+	case V2CustomizerPowerShellExecutionPolicyUnrestricted:
+	case V2CustomizerPowerShellExecutionPolicyRemoteSigned:
+	case V2CustomizerPowerShellExecutionPolicyAllSigned:
+	case V2CustomizerPowerShellExecutionPolicyRestricted:
+
+	default:
+		return fmt.Errorf("unexpected V2CustomizerPowerShellExecutionPolicy value: %v", v)
 	}
 
 	*i = v
