@@ -187,8 +187,7 @@ type V2CustomizerFile struct {
 	Destination string `json:"destination"`
 	// Expected SHA256 checksum for file validation.
 	// Value must match pattern: `^[a-fA-F0-9]{64}$`.
-	Sha256Checksum string  `json:"sha256Checksum,omitempty"`
-	ValidExitCodes []int64 `json:"validExitCodes,omitempty"`
+	Sha256Checksum string `json:"sha256Checksum,omitempty"`
 }
 
 // V2CustomizerPowerShell structure is generated from "#/definitions/V2CustomizerPowerShell".
@@ -199,8 +198,11 @@ type V2CustomizerPowerShell struct {
 	Script          string                                `json:"script,omitempty"`          // Path to PowerShell script file to execute.
 	ValidExitCodes  []int64                               `json:"validExitCodes,omitempty"`  // List of valid exit codes.
 	Elevated        bool                                  `json:"elevated,omitempty"`        // Whether to run PowerShell with elevated privileges.
+	System          bool                                  `json:"system,omitempty"`          // Whether to run PowerShell with elevated privileges as the local system user.
 	ExecutionPolicy V2CustomizerPowerShellExecutionPolicy `json:"executionPolicy,omitempty"` // PowerShell execution policy for this script.
-	Environment     map[string]string                     `json:"environment,omitempty"`     // Environment variables to set before execution.
+	// Expected SHA256 checksum for file validation.
+	// Value must match pattern: `^[a-fA-F0-9]{64}$`.
+	Sha256Checksum string `json:"sha256Checksum,omitempty"`
 }
 
 // V2CustomizerPowerShellNot structure is generated from "#/definitions/V2CustomizerPowerShell->not".
