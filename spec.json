@@ -113,15 +113,6 @@
           "type": "string",
           "pattern": "^[a-fA-F0-9]{64}$",
           "description": "Expected SHA256 checksum for file validation"
-        },
-        "validExitCodes": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          },
-          "default": [
-            0
-          ]
         }
       },
       "required": [
@@ -173,6 +164,11 @@
           "default": false,
           "description": "Whether to run PowerShell with elevated privileges"
         },
+        "system": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to run PowerShell with elevated privileges as the local system user"
+        },
         "executionPolicy": {
           "type": "string",
           "enum": [
@@ -185,13 +181,10 @@
           "default": "Bypass",
           "description": "PowerShell execution policy for this script"
         },
-        "environment": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "string"
-          },
-          "maxProperties": 50,
-          "description": "Environment variables to set before execution"
+        "sha256Checksum": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$",
+          "description": "Expected SHA256 checksum for file validation"
         }
       },
       "oneOf": [
