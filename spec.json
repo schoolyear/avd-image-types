@@ -241,7 +241,8 @@
         "version": {
           "type": "string",
           "enum": [
-            "v2"
+            "v2",
+            "v2.1"
           ]
         },
         "name": {
