@@ -290,7 +290,8 @@
           "description": "The version of the AVD platform this layer expects and requires to work",
           "type": "string",
           "enum": [
-            "2"
+            "2",
+            "v2.1"
           ]
         },
         "build_parameters": {

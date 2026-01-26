@@ -506,13 +506,15 @@ type V2LayerPropertiesPlatformVersion string
 
 // V2LayerPropertiesPlatformVersion values enumeration.
 const (
-	V2LayerPropertiesPlatformVersion2 = V2LayerPropertiesPlatformVersion("2")
+	V2LayerPropertiesPlatformVersion2   = V2LayerPropertiesPlatformVersion("2")
+	V2LayerPropertiesPlatformVersionV21 = V2LayerPropertiesPlatformVersion("v2.1")
 )
 
 // MarshalJSON encodes JSON.
 func (i V2LayerPropertiesPlatformVersion) MarshalJSON() ([]byte, error) {
 	switch i {
 	case V2LayerPropertiesPlatformVersion2:
+	case V2LayerPropertiesPlatformVersionV21:
 
 	default:
 		return nil, fmt.Errorf("unexpected V2LayerPropertiesPlatformVersion value: %v", i)
@@ -534,6 +536,7 @@ func (i *V2LayerPropertiesPlatformVersion) UnmarshalJSON(data []byte) error {
 
 	switch v {
 	case V2LayerPropertiesPlatformVersion2:
+	case V2LayerPropertiesPlatformVersionV21:
 
 	default:
 		return fmt.Errorf("unexpected V2LayerPropertiesPlatformVersion value: %v", v)
