@@ -241,7 +241,8 @@
         "version": {
           "type": "string",
           "enum": [
-            "v2"
+            "v2",
+            "v2.1"
           ]
         },
         "name": {
@@ -290,8 +291,7 @@
           "description": "The version of the AVD platform this layer expects and requires to work",
           "type": "string",
           "enum": [
-            "2",
-            "v2.1"
+            "2"
           ]
         },
         "build_parameters": {
