@@ -14,9 +14,10 @@ import (
 //
 // V2 Bundle Properties.
 type V2BundleProperties struct {
-	Version         V2BundlePropertiesVersion                 `json:"version"`     // Required.
-	CliVersion      string                                    `json:"cli_version"` // Required.
-	Layers          []V2LayerProperties                       `json:"layers"`      // Required.
+	Version         V2BundlePropertiesVersion                 `json:"version"`              // Required.
+	CliVersion      string                                    `json:"cli_version"`          // Required.
+	Layers          []V2LayerProperties                       `json:"layers"`               // Required.
+	BaseImage       *V2BaseImage                              `json:"base_image,omitempty"` // V2 Base Image.
 	BuildParameters map[string]map[string]BuildParameterValue `json:"build_parameters,omitempty"`
 }
 
@@ -27,11 +28,11 @@ type V2LayerProperties struct {
 	Version V2LayerPropertiesVersion `json:"version"` // Required.
 	// Value must match pattern: `^[a-zA-Z0-9-.]+$`.
 	// Required.
-	Name        string                      `json:"name"`
-	Description string                      `json:"description,omitempty"`
-	Author      V2LayerPropertiesAuthor     `json:"author"` // Required.
-	BaseImage   *V2LayerPropertiesBaseImage `json:"base_image,omitempty"`
-	Network     *V2LayerPropertiesNetwork   `json:"network,omitempty"`
+	Name        string                    `json:"name"`
+	Description string                    `json:"description,omitempty"`
+	Author      V2LayerPropertiesAuthor   `json:"author"`               // Required.
+	BaseImage   *V2BaseImage              `json:"base_image,omitempty"` // V2 Base Image.
+	Network     *V2LayerPropertiesNetwork `json:"network,omitempty"`
 	// The version of the AVD platform this layer expects and requires to work.
 	// Required.
 	PlatformVersion V2LayerPropertiesPlatformVersion `json:"platform_version"`
@@ -47,7 +48,7 @@ type V2LayerPropertiesAuthor struct {
 	Email string `json:"email,omitempty"` // Format: email.
 }
 
-// ManagedImage structure is generated from "#/definitions/V2LayerProperties->base_image/oneOf/0".
+// ManagedImage structure is generated from "#/definitions/V2BaseImage/oneOf/0".
 //
 // Managed Image.
 type ManagedImage struct {
@@ -55,7 +56,7 @@ type ManagedImage struct {
 	ImageID string           `json:"imageId"` // Required.
 }
 
-// PlatformImage structure is generated from "#/definitions/V2LayerProperties->base_image/oneOf/1".
+// PlatformImage structure is generated from "#/definitions/V2BaseImage/oneOf/1".
 //
 // Platform Image.
 type PlatformImage struct {
@@ -67,7 +68,7 @@ type PlatformImage struct {
 	Version   string                 `json:"version"`            // Required.
 }
 
-// PlatformImagePlanInfo structure is generated from "#/definitions/V2LayerProperties->base_image/oneOf/1->planInfo".
+// PlatformImagePlanInfo structure is generated from "#/definitions/V2BaseImage/oneOf/1->planInfo".
 //
 // Platform Image Plan Info.
 type PlatformImagePlanInfo struct {
@@ -76,7 +77,7 @@ type PlatformImagePlanInfo struct {
 	PlanPublisher string `json:"planPublisher"` // Required.
 }
 
-// SharedImageVersion structure is generated from "#/definitions/V2LayerProperties->base_image/oneOf/2".
+// SharedImageVersion structure is generated from "#/definitions/V2BaseImage/oneOf/2".
 //
 // Shared Image Version.
 type SharedImageVersion struct {
@@ -84,15 +85,17 @@ type SharedImageVersion struct {
 	ImageVersionID string                 `json:"imageVersionId"` // Required.
 }
 
-// V2LayerPropertiesBaseImage structure is generated from "#/definitions/V2LayerProperties->base_image".
-type V2LayerPropertiesBaseImage struct {
+// V2BaseImage structure is generated from "#/definitions/V2BaseImage".
+//
+// V2 Base Image.
+type V2BaseImage struct {
 	ManagedImage       *ManagedImage       `json:"-"`
 	PlatformImage      *PlatformImage      `json:"-"`
 	SharedImageVersion *SharedImageVersion `json:"-"`
 }
 
 // UnmarshalJSON decodes JSON.
-func (v *V2LayerPropertiesBaseImage) UnmarshalJSON(data []byte) error {
+func (v *V2BaseImage) UnmarshalJSON(data []byte) error {
 	var err error
 
 	oneOfErrors := make(map[string]error, 3)
@@ -123,14 +126,14 @@ func (v *V2LayerPropertiesBaseImage) UnmarshalJSON(data []byte) error {
 	}
 
 	if oneOfValid != 1 {
-		return fmt.Errorf("oneOf constraint failed for V2LayerPropertiesBaseImage with %d valid results: %v", oneOfValid, oneOfErrors)
+		return fmt.Errorf("oneOf constraint failed for V2BaseImage with %d valid results: %v", oneOfValid, oneOfErrors)
 	}
 
 	return nil
 }
 
 // MarshalJSON encodes JSON.
-func (v V2LayerPropertiesBaseImage) MarshalJSON() ([]byte, error) {
+func (v V2BaseImage) MarshalJSON() ([]byte, error) {
 	return marshalUnion(v.ManagedImage, v.PlatformImage, v.SharedImageVersion)
 }
 

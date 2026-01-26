@@ -268,89 +268,8 @@
           ]
         },
         "base_image": {
-          "type": "object",
-          "oneOf": [
-            {
-              "title": "Managed Image",
-              "type": "object",
-              "properties": {
-                "type": {
-                  "const": "ManagedImage"
-                },
-                "imageId": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "type",
-                "imageId"
-              ]
-            },
-            {
-              "title": "Platform Image",
-              "type": "object",
-              "properties": {
-                "type": {
-                  "const": "PlatformImage"
-                },
-                "offer": {
-                  "type": "string"
-                },
-                "planInfo": {
-                  "title": "Platform Image Plan Info",
-                  "type": "object",
-                  "properties": {
-                    "planName": {
-                      "type": "string"
-                    },
-                    "planProduct": {
-                      "type": "string"
-                    },
-                    "planPublisher": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "planName",
-                    "planProduct",
-                    "planPublisher"
-                  ]
-                },
-                "publisher": {
-                  "type": "string"
-                },
-                "sku": {
-                  "type": "string"
-                },
-                "version": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "type",
-                "offer",
-                "publisher",
-                "sku",
-                "version"
-              ]
-            },
-            {
-              "title": "Shared Image Version",
-              "type": "object",
-              "properties": {
-                "type": {
-                  "const": "SharedImageVersion"
-                },
-                "imageVersionId": {
-                  "type": "string"
-                }
-              },
-              "required": [
-                "type",
-                "imageVersionId"
-              ]
-            }
-          ]
+          "description": "Note: base_image on bundle properties was added later.",
+          "$ref": "#/definitions/V2BaseImage"
         },
         "network": {
           "type": "object",
@@ -433,6 +352,92 @@
         "platform_version"
       ]
     },
+    "V2BaseImage": {
+      "title": "V2 Base Image",
+      "type": "object",
+      "oneOf": [
+        {
+          "title": "Managed Image",
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "ManagedImage"
+            },
+            "imageId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "imageId"
+          ]
+        },
+        {
+          "title": "Platform Image",
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "PlatformImage"
+            },
+            "offer": {
+              "type": "string"
+            },
+            "planInfo": {
+              "title": "Platform Image Plan Info",
+              "type": "object",
+              "properties": {
+                "planName": {
+                  "type": "string"
+                },
+                "planProduct": {
+                  "type": "string"
+                },
+                "planPublisher": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "planName",
+                "planProduct",
+                "planPublisher"
+              ]
+            },
+            "publisher": {
+              "type": "string"
+            },
+            "sku": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "offer",
+            "publisher",
+            "sku",
+            "version"
+          ]
+        },
+        {
+          "title": "Shared Image Version",
+          "type": "object",
+          "properties": {
+            "type": {
+              "const": "SharedImageVersion"
+            },
+            "imageVersionId": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "type",
+            "imageVersionId"
+          ]
+        }
+      ]
+    },
     "V2BundleProperties": {
       "title": "V2 Bundle Properties",
       "type": "object",
@@ -454,6 +459,9 @@
           },
           "minItems": 1,
           "maxItems": 50
+        },
+        "base_image": {
+          "$ref": "#/definitions/V2BaseImage"
         },
         "build_parameters": {
           "$ref": "#/definitions/V2BuildParameterLayers"

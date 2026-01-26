@@ -11,6 +11,7 @@ const (
 	V2CustomizerPowerShellDefinition      = "V2CustomizerPowerShell"
 	V2CustomizerDefinition                = "V2Customizer"
 	V2LayerPropertiesDefinition           = "V2LayerProperties"
+	V2BaseImageDefinition                 = "V2BaseImage"
 	V2BundlePropertiesDefinition          = "V2BundleProperties"
 	V2BuildParameterLayerValuesDefinition = "V2BuildParameterLayerValues"
 	V2BuildParameterLayersDefinition      = "V2BuildParameterLayers"
