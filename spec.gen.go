@@ -38,8 +38,9 @@ type V2LayerProperties struct {
 	PlatformVersion V2LayerPropertiesPlatformVersion `json:"platform_version"`
 	// LayerBuildParameters.
 	// Parameters required during the build of the image.
-	BuildParameters map[string]LayerParameter     `json:"build_parameters,omitempty"`
-	Customizers     *V2LayerPropertiesCustomizers `json:"customizers,omitempty"`
+	BuildParameters      map[string]LayerParameter     `json:"build_parameters,omitempty"`
+	Customizers          *V2LayerPropertiesCustomizers `json:"customizers,omitempty"`
+	BackupConfigPatterns []string                      `json:"backup_config_patterns,omitempty"` // Glob patterns, relative to the user home directory, for paths that should be backed up during VM destruction. Introduced in v2.2.
 }
 
 // V2LayerPropertiesAuthor structure is generated from "#/definitions/V2LayerProperties->author".
@@ -336,6 +337,7 @@ type V2LayerPropertiesVersion string
 const (
 	V2LayerPropertiesVersionV2  = V2LayerPropertiesVersion("v2")
 	V2LayerPropertiesVersionV21 = V2LayerPropertiesVersion("v2.1")
+	V2LayerPropertiesVersionV22 = V2LayerPropertiesVersion("v2.2")
 )
 
 // MarshalJSON encodes JSON.
@@ -343,6 +345,7 @@ func (i V2LayerPropertiesVersion) MarshalJSON() ([]byte, error) {
 	switch i {
 	case V2LayerPropertiesVersionV2:
 	case V2LayerPropertiesVersionV21:
+	case V2LayerPropertiesVersionV22:
 
 	default:
 		return nil, fmt.Errorf("unexpected V2LayerPropertiesVersion value: %v", i)
@@ -365,6 +368,7 @@ func (i *V2LayerPropertiesVersion) UnmarshalJSON(data []byte) error {
 	switch v {
 	case V2LayerPropertiesVersionV2:
 	case V2LayerPropertiesVersionV21:
+	case V2LayerPropertiesVersionV22:
 
 	default:
 		return fmt.Errorf("unexpected V2LayerPropertiesVersion value: %v", v)

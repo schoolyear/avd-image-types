@@ -242,7 +242,8 @@
           "type": "string",
           "enum": [
             "v2",
-            "v2.1"
+            "v2.1",
+            "v2.2"
           ]
         },
         "name": {
@@ -343,6 +344,16 @@
               },
               "maxItems": 100
             }
+          }
+        },
+        "backup_config_patterns": {
+          "description": "Glob patterns, relative to the user home directory, for paths that should be backed up before the VM is deallocated. Introduced in v2.2.",
+          "type": "array",
+          "maxItems": 100,
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 260
           }
         }
       },
