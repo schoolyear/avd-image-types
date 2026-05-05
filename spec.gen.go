@@ -40,7 +40,7 @@ type V2LayerProperties struct {
 	// Parameters required during the build of the image.
 	BuildParameters      map[string]LayerParameter     `json:"build_parameters,omitempty"`
 	Customizers          *V2LayerPropertiesCustomizers `json:"customizers,omitempty"`
-	BackupConfigPatterns []string                      `json:"backup_config_patterns,omitempty"` // Glob patterns, relative to the user home directory, for paths that should be backed up during VM destruction. Introduced in v2.2.
+	BackupConfigPatterns []string                      `json:"backup_config_patterns,omitempty"` // Glob patterns, relative to the user home directory, for paths that should be backed up before the VM is deallocated. Introduced in v2.2.
 }
 
 // V2LayerPropertiesAuthor structure is generated from "#/definitions/V2LayerProperties->author".
