@@ -3,7 +3,7 @@ module github.com/schoolyear/avd-image-types
 go 1.24.1
 
 require (
-	github.com/buger/jsonparser v1.1.1
+	github.com/buger/jsonparser v1.1.2
 	github.com/xeipuuv/gojsonschema v1.2.0
 )
 
